@@ -29,11 +29,10 @@ close-out at all. Shipped detail belongs in the receipt and the git log, not her
 
 ## Status at a Glance
 
-**Last updated:** 2026-09-02. **Last shipped:** 2026-09-02 ([#95](https://github.com/bradley-gunner/modern-bizops-website/pull/95), AEO batch 2, the pricing cluster: four `/learn` pages, each with hero, stat cards and a comparison block, plus ten cross-links on seven existing pages; [#94](https://github.com/bradley-gunner/modern-bizops-website/pull/94) homepage amber band and video placement).
+**Last updated:** 2026-09-21. **Last shipped:** 2026-09-02 ([#95](https://github.com/bradley-gunner/modern-bizops-website/pull/95), AEO batch 2, the pricing cluster). **In review:** SEO loop cycles 2 and 3, two `/learn` pages in one PR (`ai-training-for-employees`, `ai-implementation-services`), each with hero, stat cards and a comparison block, plus five cross-links on four existing pages.
 
-- **Live inventory:** 44 URLs in the sitemap, **31 of them `/learn` pages**. Verified against the live sitemap on 2026-09-02 after the #95 deploy. This file does not track the page list; the sitemap and GSC do. See "Where page counts come from" below.
-- **In flight:** nothing.
-- **After #95:** GSC and Bing indexing done; the four link-free LinkedIn promo posts sit in Buffer as drafts (Sep 15, 22, 24, 29) awaiting Bradley's tap, which is the last clause of board item `seo-batch2-publish-through-promotion`. New reusable block `components/learn/ComparisonTable.jsx` for any future side-by-side.
+- **Live inventory:** 44 URLs in the sitemap, **31 of them `/learn` pages**, verified against the live sitemap on 2026-09-21 before the cycles 2 and 3 merge. It moves to 46 and 33 on merge. This file does not track the page list; the sitemap and GSC do. See "Where page counts come from" below.
+- **In flight:** the cycles 2 and 3 PR. After merge, the Modern BizOps session runs GSC and Bing indexing, the promo posts and the board receipt follow-through; none of that is done from this repo.
 - **Next:** the October Observe pass reads the batch 2 GSC and Bing rows into next-batch sequencing. The agency income/market-size long-tail stays excluded (maker and job-seeker intent).
 - **PR #10: closed 2026-08-02** by Bradley as obsolete (see below).
 

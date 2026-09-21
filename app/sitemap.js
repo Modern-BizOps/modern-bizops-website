@@ -9,7 +9,7 @@ const LAST_MODIFIED = {
   about: "2026-04-24",
   maturityModel: "2026-07-02",
   aiReadinessAssessment: "2026-09-01",
-  aiAutomationServices: "2026-09-01",
+  aiAutomationServices: "2026-09-21",
   foundingClients: "2026-08-11",
   revenueOperationsConsulting: "2026-07-21",
   learnIndex: "2026-08-11",
@@ -46,10 +46,16 @@ const LAST_MODIFIED = {
   learnAiAutomationAgencyCost: "2026-09-01",
   learnAiConsultantVsInHouse: "2026-09-01",
   learnBestAiAutomationAgenciesB2b: "2026-09-01",
-  learnWhatIsAnAiReadinessAssessment: "2026-09-01",
-  learnAiConsultantCost: "2026-09-01",
+  learnWhatIsAnAiReadinessAssessment: "2026-09-21",
+  learnAiConsultantCost: "2026-09-21",
   learnAiAutomationServicesPricing: "2026-09-01",
-  learnAiConsultantVsAiAgency: "2026-09-01",
+  learnAiConsultantVsAiAgency: "2026-09-21",
+  // SEO loop cycles 2 and 3, published together 2026-09-21. The four pages
+  // that gained a cross-link sentence into them (the readiness explainer, the
+  // consultant cost guide, consultant vs. agency and the services page) move
+  // their crawl dates with it.
+  learnAiTrainingForEmployees: "2026-09-21",
+  learnAiImplementationServices: "2026-09-21",
 };
 
 export default function sitemap() {
@@ -316,6 +322,18 @@ export default function sitemap() {
     {
       url: `${baseUrl}/learn/ai-consultant-vs-ai-agency`,
       lastModified: new Date(LAST_MODIFIED.learnAiConsultantVsAiAgency),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/learn/ai-training-for-employees`,
+      lastModified: new Date(LAST_MODIFIED.learnAiTrainingForEmployees),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/learn/ai-implementation-services`,
+      lastModified: new Date(LAST_MODIFIED.learnAiImplementationServices),
       changeFrequency: "monthly",
       priority: 0.7,
     },

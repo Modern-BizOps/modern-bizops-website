@@ -36,6 +36,8 @@ const PUBLISH_ORDER = [
   "ai-consultant-cost",
   "ai-automation-services-pricing",
   "ai-consultant-vs-ai-agency",
+  "ai-training-for-employees",
+  "ai-implementation-services",
 ];
 
 describe("learn visual system", () => {

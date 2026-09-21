@@ -229,6 +229,9 @@ const AUTHORED_SPEAKS_AS_I = [
   "components/learn/content/Stage1ReactiveHubBody.jsx",
   "components/learn/content/WhatIsRevOpsBody.jsx",
   "components/learn/content/WinLossAnalysisBody.jsx",
+  // SEO loop cycle 3 (2026-09-21) carries the author's own first person: the
+  // Contactually onboarding story and the COO seat, told as "I".
+  "components/learn/content/AiImplementationServicesBody.jsx",
   "app/about/page.js",
   "lib/learn/registry.js",
 ];
@@ -264,6 +267,9 @@ const AUTHORED_SILENT_SO_FAR = [
   "components/learn/content/AiConsultantCostBody.jsx",
   "components/learn/content/AiAutomationServicesPricingBody.jsx",
   "components/learn/content/AiConsultantVsAiAgencyBody.jsx",
+  // SEO loop cycle 2 (2026-09-21) is company-voice for the same reason: it
+  // publishes "our" training price and carries no first-person aside.
+  "components/learn/content/AiTrainingForEmployeesBody.jsx",
 ];
 
 const LEARN_BODIES = sourceFiles(join(ROOT, "components/learn/content")).map(rel);
@@ -277,7 +283,7 @@ const THIRD_PERSON_AUTHOR = /\bour founder\b|\bBradley\b/i;
 
 describe("authored content speaks as I", () => {
   it("accounts for every /learn body exactly once", () => {
-    expect(LEARN_BODIES.length).toBe(31);
+    expect(LEARN_BODIES.length).toBe(33);
     const listed = [
       ...AUTHORED_SPEAKS_AS_I.filter((f) => f.startsWith("components/learn/")),
       ...AUTHORED_SILENT_SO_FAR,

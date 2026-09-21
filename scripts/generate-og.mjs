@@ -771,6 +771,30 @@ const CARDS = {
         headlineSize: 56,
       }),
   },
+  // SEO loop cycles 2 and 3, 2026-09-21. Same convention: the kicker names the
+  // target query noun, the headline is the title tag's hook clause in the
+  // page's own words ("What Actually Sticks in 2026"). The implementation
+  // card takes its dek instead of its title's hook, because the title's hook
+  // names the $50M ceiling and a revenue band never goes on a card (see
+  // __tests__/og/card-copy.test.js).
+  'learn-ai-training-for-employees': {
+    changed: false,
+    element: () =>
+      learnCard({
+        kicker: 'AI TRAINING FOR EMPLOYEES',
+        headline: 'What Actually Sticks in 2026',
+        headlineSize: 56,
+      }),
+  },
+  'learn-ai-implementation-services': {
+    changed: false,
+    element: () =>
+      learnCard({
+        kicker: 'AI IMPLEMENTATION SERVICES',
+        headline: 'What the Work Includes, and What It Costs',
+        headlineSize: 56,
+      }),
+  },
 };
 
 // ---- render ---------------------------------------------------------------
