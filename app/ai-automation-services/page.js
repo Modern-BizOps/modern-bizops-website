@@ -267,6 +267,16 @@ export default function AiAutomationServicesPage() {
                 training together, with a retainer after that.
               </p>
               <p>Nothing here requires the next thing.</p>
+              <p>
+                For the category explained rather than the offer, see{" "}
+                <Link
+                  href="/learn/ai-implementation-services"
+                  className="text-navy underline underline-offset-4 hover:text-amber transition-colors"
+                >
+                  AI implementation services
+                </Link>
+                .
+              </p>
             </div>
           </div>
 
@@ -319,7 +329,15 @@ export default function AiAutomationServicesPage() {
           <div className="mt-10 max-w-[760px] border-l-2 border-amber pl-5 md:pl-6">
             <p className="font-body text-text-mid text-base md:text-lg leading-relaxed">
               {TRAINING.name} is {TRAINING.price} and sits beside the ladder
-              rather than on it. {TRAINING.summary}
+              rather than on it. {TRAINING.summary} More on what a program
+              should cover and what the market charges:{" "}
+              <Link
+                href="/learn/ai-training-for-employees"
+                className="text-navy underline underline-offset-4 hover:text-amber transition-colors"
+              >
+                AI training for employees
+              </Link>
+              .
             </p>
           </div>
         </Section>

@@ -52,6 +52,14 @@ export default function AiConsultantVsAiAgencyBody() {
         .
       </p>
       <p>
+        Either way, the work itself is the same five parts, which we break down
+        in{" "}
+        <Link href="/learn/ai-implementation-services" className={link}>
+          AI implementation services
+        </Link>
+        .
+      </p>
+      <p>
         The price bands overlap almost completely, which is the first honest
         finding of this comparison: the choice is not really about price. It
         is about failure modes.

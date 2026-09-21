@@ -100,6 +100,14 @@ export default function AiConsultantCostBody() {
         build is the common one, and it is expensive, because the incentive
         runs against finishing.
       </p>
+      <p>
+        If you are still working out what you are actually buying, start with
+        what{" "}
+        <Link href="/learn/ai-implementation-services" className={link}>
+          AI implementation services
+        </Link>{" "}
+        include.
+      </p>
 
       <h2 className={h2}>What the rates actually look like in 2026</h2>
       <ul className="list-disc pl-6 space-y-3">

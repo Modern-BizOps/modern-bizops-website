@@ -111,6 +111,13 @@ export default function WhatIsAnAiReadinessAssessmentBody() {
         ). Those matter at enterprise scale. For a $1M to $50M B2B company, the
         five above decide the outcome.
       </p>
+      <p>
+        The readiness gap is often a people gap, which is what{" "}
+        <Link href="/learn/ai-training-for-employees" className={link}>
+          AI training for employees
+        </Link>{" "}
+        is for.
+      </p>
 
       <h2 className={h2}>The questionnaire problem</h2>
       <p>

@@ -58,8 +58,11 @@ const PAGES = [
     page: OFFER_PAGES.services,
     metadata: OFFER_PAGES.services.metadata,
     priority: 0.8,
-    // Bumped when /pricing merged into this page on 2026-09-01.
-    lastModified: "2026-09-01",
+    // Bumped when /pricing merged into this page on 2026-09-01, and again when
+    // the page gained its links to the training and implementation explainers
+    // (/learn/ai-training-for-employees, /learn/ai-implementation-services) on
+    // 2026-09-21.
+    lastModified: "2026-09-21",
   },
   {
     name: "founding clients",
