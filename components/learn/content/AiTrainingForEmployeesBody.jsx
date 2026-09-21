@@ -99,7 +99,7 @@ export default function AiTrainingForEmployeesBody() {
         stats={[
           {
             big: "36%",
-            desc: "of frontline employees feel they have received adequate upskilling, in a survey where 74% describe themselves as AI users.",
+            desc: "of respondents feel they have received adequate upskilling, in a survey where 74% of frontline employees describe themselves as AI users.",
             source: "BCG, AI at Work, 2026",
           },
           {

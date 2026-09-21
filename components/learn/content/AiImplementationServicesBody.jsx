@@ -239,7 +239,7 @@ export default function AiImplementationServicesBody() {
             ],
           },
           {
-            label: "Honestly priced",
+            label: "How it is priced",
             cells: [
               "By the hour or as a fixed-fee roadmap.",
               "Per system.",
