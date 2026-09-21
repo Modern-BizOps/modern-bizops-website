@@ -311,8 +311,11 @@ export default function AiImplementationServicesBody() {
         </li>
         <li>
           <strong>
-            Cleanup Services: {CLEANUP_PRICE_FLOOR} to {CLEANUP_PRICE_CEILING}{" "}
-            fixed per item.
+            Cleanup Services:{" "}
+            {/* One text node, so the band reads as one string to any text
+                scan (React inserts a comment between adjacent expressions). */}
+            {`${CLEANUP_PRICE_FLOOR} to ${CLEANUP_PRICE_CEILING}`} fixed per
+            item.
           </strong>{" "}
           The foundation work most quotes skip, done before builds go on top.
         </li>
