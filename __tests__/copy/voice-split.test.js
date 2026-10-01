@@ -232,6 +232,9 @@ const AUTHORED_SPEAKS_AS_I = [
   // SEO loop cycle 3 (2026-09-21) carries the author's own first person: the
   // Contactually onboarding story and the COO seat, told as "I".
   "components/learn/content/AiImplementationServicesBody.jsx",
+  // SEO loop cycle 5 (2026-10-01): the same Contactually story told from the
+  // data side, the framework "I built", and "I will tell you" at the mid CTA.
+  "components/learn/content/CrmDataCleansingServicesBody.jsx",
   "app/about/page.js",
   "lib/learn/registry.js",
 ];
@@ -283,7 +286,7 @@ const THIRD_PERSON_AUTHOR = /\bour founder\b|\bBradley\b/i;
 
 describe("authored content speaks as I", () => {
   it("accounts for every /learn body exactly once", () => {
-    expect(LEARN_BODIES.length).toBe(33);
+    expect(LEARN_BODIES.length).toBe(34);
     const listed = [
       ...AUTHORED_SPEAKS_AS_I.filter((f) => f.startsWith("components/learn/")),
       ...AUTHORED_SILENT_SO_FAR,

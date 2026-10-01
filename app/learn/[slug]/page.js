@@ -34,6 +34,7 @@ import AiAutomationServicesPricingBody from "@/components/learn/content/AiAutoma
 import AiConsultantVsAiAgencyBody from "@/components/learn/content/AiConsultantVsAiAgencyBody";
 import AiTrainingForEmployeesBody from "@/components/learn/content/AiTrainingForEmployeesBody";
 import AiImplementationServicesBody from "@/components/learn/content/AiImplementationServicesBody";
+import CrmDataCleansingServicesBody from "@/components/learn/content/CrmDataCleansingServicesBody";
 import {
   getBreadcrumbSchema,
   getFaqSchema,
@@ -77,6 +78,7 @@ const BODIES = {
   "ai-consultant-vs-ai-agency": AiConsultantVsAiAgencyBody,
   "ai-training-for-employees": AiTrainingForEmployeesBody,
   "ai-implementation-services": AiImplementationServicesBody,
+  "crm-data-cleansing-services": CrmDataCleansingServicesBody,
 };
 
 // hub -> DefinedTermSet; competency -> DefinedTerm (standalone when the entry

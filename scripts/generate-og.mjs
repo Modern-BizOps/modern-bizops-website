@@ -795,6 +795,18 @@ const CARDS = {
         headlineSize: 56,
       }),
   },
+  // SEO loop cycle 5, 2026-10-01. Same convention: the kicker names the target
+  // query noun, the headline is the title tag's hook clause in the page's own
+  // words ("What It Covers and Costs").
+  'learn-crm-data-cleansing-services': {
+    changed: false,
+    element: () =>
+      learnCard({
+        kicker: 'CRM DATA CLEANSING SERVICES',
+        headline: 'What It Covers and Costs',
+        headlineSize: 56,
+      }),
+  },
 };
 
 // ---- render ---------------------------------------------------------------

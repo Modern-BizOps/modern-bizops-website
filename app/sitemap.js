@@ -16,11 +16,11 @@ const LAST_MODIFIED = {
   privacy: "2026-04-06",
   terms: "2026-04-06",
   learnStage1Reactive: "2026-07-14",
-  learnCrmArchitecture: "2026-07-14",
+  learnCrmArchitecture: "2026-10-01",
   learnPipelineStageDesign: "2026-07-14",
   learnIdealCustomerProfile: "2026-07-14",
   learnRevenueLifecycleDesign: "2026-07-14",
-  learnDataQualityManagement: "2026-07-14",
+  learnDataQualityManagement: "2026-10-01",
   learnLeadQualificationFramework: "2026-07-14",
   learnFractionalCoo: "2026-07-14",
   learnNetRevenueRetention: "2026-07-14",
@@ -55,7 +55,11 @@ const LAST_MODIFIED = {
   // consultant cost guide, consultant vs. agency and the services page) move
   // their crawl dates with it.
   learnAiTrainingForEmployees: "2026-09-21",
-  learnAiImplementationServices: "2026-09-21",
+  learnAiImplementationServices: "2026-10-01",
+  // SEO loop cycle 5, published 2026-10-01. The three pages that gained a
+  // cross-link sentence into it (data quality management, CRM architecture
+  // and governance, AI implementation services) move their crawl dates with it.
+  learnCrmDataCleansingServices: "2026-10-01",
 };
 
 export default function sitemap() {
@@ -334,6 +338,12 @@ export default function sitemap() {
     {
       url: `${baseUrl}/learn/ai-implementation-services`,
       lastModified: new Date(LAST_MODIFIED.learnAiImplementationServices),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/learn/crm-data-cleansing-services`,
+      lastModified: new Date(LAST_MODIFIED.learnCrmDataCleansingServices),
       changeFrequency: "monthly",
       priority: 0.7,
     },

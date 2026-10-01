@@ -7,9 +7,11 @@ export default function StatCards({ label, title, stats }) {
   return (
     <VizBlock label={label} title={title}>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        {stats.map((stat) => (
+        {/* Keyed by position as well as number, because two cards can carry
+            the same figure. */}
+        {stats.map((stat, i) => (
           <div
-            key={stat.big}
+            key={`${i}-${stat.big}`}
             className="rounded-[14px] border border-white/10 bg-white/[0.045] px-6 py-[26px]"
           >
             <p className="mb-3 font-display text-[44px] font-bold leading-none text-amber-light md:text-[52px]">

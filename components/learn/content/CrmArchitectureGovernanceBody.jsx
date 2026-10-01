@@ -95,6 +95,13 @@ export default function CrmArchitectureGovernanceBody() {
         owner something to actually manage, instead of chasing reps for updates that
         never come.
       </p>
+      <p>
+        When the records are already a mess,{" "}
+        <Link href="/learn/crm-data-cleansing-services" className="text-navy underline">
+          CRM data cleansing services
+        </Link>{" "}
+        covers the one-time cleanup.
+      </p>
 
       <h2 className={h2}>Why this happens even in decent-sized companies</h2>
       <p>Two structural patterns cause it, and neither one is really about the software.</p>

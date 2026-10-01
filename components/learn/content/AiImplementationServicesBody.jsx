@@ -103,7 +103,11 @@ export default function AiImplementationServicesBody() {
         change APIs, people leave.
       </p>
       <p>
-        The skipped one is almost always the first. It is unglamorous, it is
+        The skipped one is almost always the first. The first of those,{" "}
+        <Link href="/learn/crm-data-cleansing-services" className={link}>
+          CRM data cleansing
+        </Link>
+        , is priced separately on its own page. It is unglamorous, it is
         hard to scope from the outside, and it does not demo well. It is also
         the one that decides whether the rest holds. In the Modern BizOps GTM
         Maturity Framework, a method I built for measuring the go-to-market
