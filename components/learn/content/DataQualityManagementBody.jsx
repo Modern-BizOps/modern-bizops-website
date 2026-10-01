@@ -175,6 +175,14 @@ export default function DataQualityManagementBody() {
         rungs={RUNGS}
       />
 
+      <p>
+        If you are pricing the work, see what{" "}
+        <Link href="/learn/crm-data-cleansing-services" className="text-navy underline">
+          CRM data cleansing services
+        </Link>{" "}
+        should include.
+      </p>
+
       <h2 className={h2}>The dependency worth naming directly</h2>
       <p>
         Data quality management depends on CRM architecture and governance being solid

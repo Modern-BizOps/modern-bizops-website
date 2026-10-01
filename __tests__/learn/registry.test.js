@@ -44,6 +44,7 @@ const SLUGS = [
   "ai-consultant-vs-ai-agency",
   "ai-training-for-employees",
   "ai-implementation-services",
+  "crm-data-cleansing-services",
 ];
 const BATCH_1_SLUGS = [
   "revenue-operations-maturity-stage-1-reactive",
@@ -97,6 +98,8 @@ const SEO_LOOP_CYCLE_2_3_SLUGS = [
   "ai-training-for-employees",
   "ai-implementation-services",
 ];
+// SEO loop cycle 5: last updated 2026-10-01 (CRM data cleansing services).
+const SEO_LOOP_CYCLE_5_SLUGS = ["crm-data-cleansing-services"];
 function expectedLastUpdated(slug) {
   if (BATCH_1_SLUGS.includes(slug)) return "2026-07-09";
   if (WAVE_1_REMAINING_SLUGS.includes(slug)) return "2026-07-15";
@@ -105,6 +108,7 @@ function expectedLastUpdated(slug) {
   if (AEO_BATCH_SLUGS.includes(slug)) return "2026-08-26";
   if (AEO_BATCH_2_SLUGS.includes(slug)) return "2026-09-01";
   if (SEO_LOOP_CYCLE_2_3_SLUGS.includes(slug)) return "2026-09-21";
+  if (SEO_LOOP_CYCLE_5_SLUGS.includes(slug)) return "2026-10-01";
   return "2026-07-14";
 }
 // Stage 1 competency pages that carry a DefinedTerm joined to the hub's set.
@@ -136,6 +140,7 @@ const PILLAR_ARTICLE_SLUGS = [
   ...AEO_BATCH_SLUGS,
   ...AEO_BATCH_2_SLUGS,
   ...SEO_LOOP_CYCLE_2_3_SLUGS,
+  ...SEO_LOOP_CYCLE_5_SLUGS,
 ];
 // The sixteen entries whose metaDescription carries a negation pivot, a
 // "Here is how to" opener, or (fractional-coo-cost) a snippet too long to read
@@ -164,7 +169,7 @@ const CARD_BLURB_SLUGS = [
 const STANDALONE_TERM_SLUGS = ["net-revenue-retention"];
 
 describe("learn page registry", () => {
-  it("has exactly the thirty-three approved slugs as keys", () => {
+  it("has exactly the thirty-four approved slugs as keys", () => {
     expect(Object.keys(LEARN_PAGES).sort()).toEqual([...SLUGS].sort());
   });
 
@@ -376,5 +381,54 @@ describe("learn page registry", () => {
       // Hook language lives in the dek (title tag), not the H1.
       expect(e.title).not.toBe(e.h1);
     }
+  });
+});
+
+describe("crm-data-cleansing-services (SEO loop cycle 5)", () => {
+  const e = LEARN_PAGES["crm-data-cleansing-services"];
+
+  it("keeps the title and meta inside the snippet bounds", () => {
+    // /learn titles opt out of the site suffix, so these are the rendered lengths.
+    expect(e.title.length).toBe(53);
+    expect(e.title.length).toBeLessThanOrEqual(60);
+    expect(e.metaDescription.length).toBe(149);
+    expect(e.metaDescription.length).toBeGreaterThanOrEqual(120);
+    expect(e.metaDescription.length).toBeLessThanOrEqual(158);
+  });
+
+  it("sends both CTA placements to /book, plain", () => {
+    expect(e.ctaUrl).toBe("/book");
+    expect(e.ctaButtonLabel).toBe("Book a Call");
+  });
+
+  it("uses the Home > Learn > page breadcrumb named for the H1", () => {
+    expect(e.breadcrumb.map((b) => b.name)).toEqual([
+      "Home",
+      "Learn",
+      "CRM data cleansing services",
+    ]);
+  });
+
+  it("carries the four approved FAQs, with no drafting provenance tags", () => {
+    expect(e.faq.map((f) => f.q)).toEqual([
+      "How can I clean up my CRM data?",
+      "How much do CRM data cleansing services cost?",
+      "How long does a CRM cleanup take?",
+      "Is AI replacing CRM?",
+    ]);
+    for (const f of e.faq) {
+      expect(f.a).not.toMatch(/live PAA|related searches|from the target term/i);
+    }
+  });
+
+  it("links the readiness FAQ phrase that its answer actually contains", () => {
+    const f = e.faq.find((x) => x.q === "Is AI replacing CRM?");
+    expect(f.aLinks).toEqual([
+      {
+        text: "what an AI readiness assessment checks",
+        href: "/learn/what-is-an-ai-readiness-assessment",
+      },
+    ]);
+    expect(f.a).toContain(f.aLinks[0].text);
   });
 });
