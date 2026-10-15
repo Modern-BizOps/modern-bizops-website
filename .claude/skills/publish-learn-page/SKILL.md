@@ -23,7 +23,7 @@ assets. Batch 1 (July 2026, PR #33) is the reference implementation.
 ## Source files
 
 Approved specs live at
-`~/Documents/Claude/Projects/Modern BizOps/Marketing Systems/SEO Pilot/`
+`~/MBO-business/Marketing Systems/SEO Pilot/`
 (check `pending-approval/` for staged batches and `published/` for shipped ones,
 which is where a batch moves on publish). Each file:
 
@@ -160,7 +160,7 @@ live verify). Then:
 2. **UTM registry**: no action for /learn CTAs. Internal links carry no UTMs
    and get no registry row (rule 3 above; the old website_modernbizops rows
    were retired July 2026). Only touch
-   `~/Documents/Claude/Projects/Modern BizOps/UTM/UTM Campaign Registry - Content.csv`
+   `~/MBO-business/UTM/UTM Campaign Registry - Content.csv`
    if the batch also ships a genuinely external placement.
 3. **OG spot-check**: one URL through opengraph.xyz (decline cookies).
 4. **Snippet length, read from the live pages.** Per rule 7, the source strings

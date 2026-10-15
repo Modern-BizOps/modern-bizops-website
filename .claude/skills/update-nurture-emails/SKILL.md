@@ -18,7 +18,7 @@ coaching business and passed every review by not contradicting anything.
 ## Before you touch the file
 
 1. **Read the source of truth, all of it.**
-   `~/Documents/Claude/Projects/Modern BizOps/Marketing Systems/Email Loop - Sequence Plan and Drafts.md`,
+   `~/MBO-business/Marketing Systems/Email Loop - Sequence Plan and Drafts.md`,
    section 5. Check the **Rev number in the header** and read the approval record it names
    (currently `Email Loop - Pivot Copy Pass v2 (2026-08-18).md`, APPROVED-BY-BRADLEY).
 2. **Copy the approved text verbatim.** Do not paraphrase, do not fix his grammar, do not
@@ -95,7 +95,7 @@ when he changes it.
 
 Only E5 and E6 carry a link, both to `/book`. `bookLink()` builds it. Any new campaign or content
 value must be registered in
-`~/Documents/Claude/Projects/Modern BizOps/UTM/UTM Campaign Registry - *.csv`, and the
+`~/MBO-business/UTM/UTM Campaign Registry - *.csv`, and the
 registry's `assembled_url` must match what `bookLink()` emits **byte for byte**; diff them, do
 not eyeball. Nurture links legitimately carry UTMs: these are external-channel links, unlike the
 internal site links the CI guard forbids.
