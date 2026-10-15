@@ -536,10 +536,10 @@ board carried "26 /learn pages" when the sitemap had 24, and did not know about 
 batch that had shipped from this repo days earlier.
 
 Write one file, using the template and contract in
-`/Users/bradleydewet/Documents/Claude/Projects/Modern BizOps/state/inbox/`:
+`/Users/bradleydewet/MBO-business/state/inbox/`:
 
 ```bash
-INBOX="/Users/bradleydewet/Documents/Claude/Projects/Modern BizOps/state/inbox"
+INBOX="/Users/bradleydewet/MBO-business/state/inbox"
 cp "$INBOX/_TEMPLATE.md" "$INBOX/$(date +%F)-site-<PR#>.md"
 # then fill it in
 ```
@@ -553,7 +553,7 @@ Fill every field. Three matter most for this repo:
   duplicate. Do not guess ids; if nothing matches after querying the db, say so under `new:`.
 
   ```bash
-  cd "$HOME/Documents/Claude/Projects/Modern BizOps/state" && python3 -c "
+  cd "$HOME/MBO-business/state" && python3 -c "
   import sqlite3; c=sqlite3.connect('board.db'); c.row_factory=sqlite3.Row
   for r in c.execute('select id,title,stage,next_action,done_when from items where id=?',('<item-id>',)):
       print(dict(r))"

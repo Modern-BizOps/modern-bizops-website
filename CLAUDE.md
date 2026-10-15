@@ -23,13 +23,13 @@ release step, so a merge goes straight to the site founders land on.
 ## Work that ships must report back (added 2026-07-28)
 
 This repo is invisible to the Modern BizOps operating board at
-`~/Documents/Claude/Projects/Modern BizOps/state/board.db`. That board is where Bradley decides
+`~/MBO-business/state/board.db`. That board is where Bradley decides
 what to work on, and it has been wrong because of it. On 2026-07-28 it carried "26 /learn pages"
 when the live sitemap had 24, and it had no record of a ten-page pSEO batch that shipped from here
 days earlier.
 
 **Rule.** Anything that merges to `main` gets a receipt in
-`~/Documents/Claude/Projects/Modern BizOps/state/inbox/`. Use `_TEMPLATE.md` there; the contract is
+`~/MBO-business/state/inbox/`. Use `_TEMPLATE.md` there; the contract is
 in the `README.md` beside it. `ship-to-production` step 9 does this for you.
 
 **Never edit `board.db` or the board artifact from this repo.** One writer owns the board:
@@ -51,7 +51,7 @@ curl -s https://modernbizops.com/sitemap.xml | grep -c '<loc>'
 | File | Holds | Never holds |
 |---|---|---|
 | [ROADMAP.md](ROADMAP.md) | The forward plan for **this repo**: what is next, the backlog | Anything already shipped |
-| `Modern BizOps/state/board.db` | Business priorities, which loop, what is worth doing | Engineering detail |
+| `~/MBO-business/state/board.db` | Business priorities, which loop, what is worth doing | Engineering detail |
 | `~/RevOps Coaching App/ROADMAP.md` | The forward plan for the client-facing app | Anything about this repo |
 
 **Linkage.** A board item concerning this repo carries a `roadmap:` reference
