@@ -76,6 +76,8 @@ ownership transfers are the thing most likely to fall between the two files.
 Site copy is company voice: the rules live in `~/MBO-business/skills/modern-bizops-brand-voice/SKILL.md`
 (Bradley's personal "I" voice is `~/.claude/skills/write-like-bradley/SKILL.md`, for bylined pieces only).
 Read it before writing anything a visitor reads; do not restate it here. **No em dashes anywhere.**
+No fabricated client results or implied testimonials; there are none yet. Benchmarks are
+supporting proof, never the headline hook.
 
 **A page's real title is the registry entry plus whatever title template applies, and only one of
 those is ever written down.** `app/layout.js` sets a `%s | Modern BizOps` template, so every page
