@@ -37,9 +37,33 @@ approved by Bradley 2026-08-18). Approval record and reasoning:
 | `Code.gs` | The whole sender: config, approved templates, run loop, exit checks, HubSpot API, one-time setup. |
 | `appsscript.json` | Manifest: timezone, V8, Gmail + external-request + trigger scopes. |
 
-## One-time deploy
+## The live project
 
-1. Go to [script.google.com](https://script.google.com) **signed in as bradley@bradleydewet.com** and create a **New project**.
+The sender has been deployed since 2026-07-27 as one Apps Script project, owned by bradley@bradleydewet.com:
+
+- **Project ID:** `1EFkbQ0YheyB3XTh4FgDe4xGKDkse_ertM8hEwaEvXnqDxowundzKiG1U`
+- **Editor:** https://script.google.com/home/projects/1EFkbQ0YheyB3XTh4FgDe4xGKDkse_ertM8hEwaEvXnqDxowundzKiG1U/edit
+- **Executions:** https://script.google.com/home/projects/1EFkbQ0YheyB3XTh4FgDe4xGKDkse_ertM8hEwaEvXnqDxowundzKiG1U/executions
+
+**Deploy a code change into this project. Never create a new one.** A second project gets no trigger and no Script Properties, so a deploy into it changes nothing that runs.
+
+Two browser traps when reading execution logs (both cost real time in August 2026):
+
+1. Use the per-project Executions URL above, not the global `/home/executions` list. The global list renders an account-confirmation dialog over the table that swallows every click. On the per-project page, click its **OK** first, then expand a row.
+2. The executions table lives in an iframe. Script injection that reads only the top frame returns nothing, so the page looks empty. Read the page text or accessibility tree instead.
+
+## Updating the live project
+
+1. Open the editor link above, **signed in as bradley@bradleydewet.com**.
+2. Paste the contents of `Code.gs` over the editor's `Code.gs`.
+3. If `appsscript.json` changed, show the manifest (Project Settings -> "Show appsscript.json manifest file") and paste it over. Script Properties and the trigger stay as they are.
+4. Run `run()` once in `dry_run` if the change touches sending logic, and read the execution log.
+
+## One-time deploy (historical, already done)
+
+Kept as the record of how the live project was built. Follow it only to rebuild from nothing, and then record the new project ID above.
+
+1. Go to [script.google.com](https://script.google.com) **signed in as bradley@bradleydewet.com** and start a new Apps Script project.
 2. Paste the contents of `Code.gs` into the editor's `Code.gs`.
 3. Show the manifest (Project Settings -> "Show appsscript.json manifest file"), then paste the contents of `appsscript.json` over it.
 4. **Project Settings -> Script Properties**, add three:
