@@ -1,7 +1,13 @@
 'use client';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { getQuestionsFor } from '@/lib/scorecard/questions';
-import { trackFormSubmit, trackLeadGenerated, identifyLead } from '@/lib/analytics';
+import {
+  trackFormSubmit,
+  trackLeadGenerated,
+  identifyLead,
+  trackScanStep,
+  trackScanQuestionsComplete,
+} from '@/lib/analytics';
 import { getHubspotutk } from '@/lib/hubspot-client';
 import { saveScanLead } from '@/lib/scan-lead';
 import SectionHeader from './SectionHeader';
@@ -113,8 +119,24 @@ export default function QuizFlow({ utms = {} }) {
     });
   }
 
+  // Question ids already reported this page load, so Back then Next does not
+  // count the same question twice and inflate the drop-off curve.
+  const trackedSteps = useRef(new Set());
+
+  function trackStep() {
+    const id = currentQuestion.id;
+    if (trackedSteps.current.has(id)) return;
+    trackedSteps.current.add(id);
+    trackScanStep({ questionId: id, index: safeIndex + 1, total: visibleQuestions.length });
+  }
+
   function next() {
+    trackStep();
     if (isLast) {
+      if (!trackedSteps.current.has('complete')) {
+        trackedSteps.current.add('complete');
+        trackScanQuestionsComplete(visibleQuestions.length);
+      }
       setStep('email');
     } else {
       setCurrentIndex(safeIndex + 1);
