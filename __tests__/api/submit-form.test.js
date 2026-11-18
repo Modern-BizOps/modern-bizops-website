@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 const hubspotMock = {
   assertHubSpotConfigured: vi.fn(),
   ensureCustomContactProperties: vi.fn(async () => {}),
   submitHubSpotForm: vi.fn(async () => ({ ok: true })),
   markContactForReview: vi.fn(async () => true),
-  findContactByEmail: vi.fn(async () => 'contact-1'),
+  findContactByEmailBatchRead: vi.fn(async () => 'contact-1'),
   pickUtmProperties: vi.fn((u) => u || {}),
   hsHeaders: vi.fn(() => ({ 'Content-Type': 'application/json' })),
   HUBSPOT_BASE: 'https://api.hubapi.com',
@@ -26,7 +26,8 @@ beforeEach(() => {
     if (typeof fn === 'function' && fn.mockClear) fn.mockClear();
   }
   hubspotMock.submitHubSpotForm.mockResolvedValue({ ok: true });
-  hubspotMock.findContactByEmail.mockResolvedValue('contact-1');
+  hubspotMock.findContactByEmailBatchRead.mockReset();
+  hubspotMock.findContactByEmailBatchRead.mockResolvedValue('contact-1');
   contactPatchUrl = null;
   contactPatchBody = null;
   dealCalled = false;
@@ -121,7 +122,58 @@ describe('POST /api/submit-form (/book path)', () => {
     hubspotMock.submitHubSpotForm.mockResolvedValue({ ok: false });
     const res = await callRoute(fixtureBody());
     expect(res.status).toBe(502);
-    expect(hubspotMock.findContactByEmail).not.toHaveBeenCalled();
+    expect(hubspotMock.findContactByEmailBatchRead).not.toHaveBeenCalled();
+  });
+
+  describe('when the new contact is slow to appear', () => {
+    let delays;
+
+    beforeEach(() => {
+      delays = [];
+      vi.spyOn(global, 'setTimeout').mockImplementation((fn, ms) => {
+        delays.push(ms);
+        fn();
+        return 0;
+      });
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('keeps reading until the contact appears, then writes the answers and the review flag', async () => {
+      // The old lookup gave up after 4 attempts. A contact on attempt 9 must still land.
+      for (let i = 0; i < 8; i++) {
+        hubspotMock.findContactByEmailBatchRead.mockResolvedValueOnce(null);
+      }
+      const res = await callRoute(fixtureBody());
+      const json = await res.json();
+
+      expect(json.contactId).toBe('contact-1');
+      expect(hubspotMock.findContactByEmailBatchRead).toHaveBeenCalledTimes(9);
+      expect(hubspotMock.findContactByEmailBatchRead).toHaveBeenCalledWith('dana@company.com');
+      expect(delays).toEqual(Array(8).fill(750));
+      expect(contactPatchBody.properties.company_annual_revenue).toBe('5m_15m');
+      expect(hubspotMock.markContactForReview).toHaveBeenCalledWith('contact-1');
+    });
+
+    it('stops after 12 attempts, still succeeds for the visitor, and logs the miss without the email', async () => {
+      hubspotMock.findContactByEmailBatchRead.mockResolvedValue(null);
+      const errorLog = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      const res = await callRoute(fixtureBody());
+      const json = await res.json();
+
+      expect(res.status).toBe(200);
+      expect(json).toEqual({ success: true, contactId: null });
+      expect(hubspotMock.findContactByEmailBatchRead).toHaveBeenCalledTimes(12);
+      expect(delays).toEqual(Array(11).fill(750));
+      expect(contactPatchBody).toBeNull();
+      expect(hubspotMock.markContactForReview).not.toHaveBeenCalled();
+      expect(errorLog).toHaveBeenCalledTimes(1);
+      expect(JSON.stringify(errorLog.mock.calls)).toContain('[submit-form]');
+      expect(JSON.stringify(errorLog.mock.calls)).not.toContain('dana@company.com');
+    });
   });
 
   it('rejects missing email', async () => {

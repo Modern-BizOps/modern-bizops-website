@@ -4,7 +4,7 @@ import {
   ensureCustomContactProperties,
   submitHubSpotForm,
   markContactForReview,
-  findContactByEmail,
+  findContactByEmailBatchRead,
   pickUtmProperties,
   hsHeaders,
   HUBSPOT_BASE,
@@ -85,12 +85,15 @@ const QUALIFYING_PROPERTIES = [
 
 let propertiesEnsured = false;
 
-// HubSpot's contact search index lags briefly after a form submission creates
-// the contact. Retry so the qualifying-property enrichment reliably lands on
-// the contact the form just created (rather than being skipped).
-async function findContactByEmailWithRetry(email, attempts = 4, delayMs = 700) {
+// The form submission creates the contact asynchronously, so a first-time
+// visitor may not exist for a few seconds after HubSpot accepts the form.
+// batch/read skips the search index (which lags 8 to 9 seconds), and the retry
+// covers the form's own processing time. Without a contact ID the qualifying
+// answers, phone and review flag are lost for good, so the wait is generous:
+// about 8 seconds at worst, and only a contact that has not appeared yet pays it.
+async function waitForContactId(email, attempts = 12, delayMs = 750) {
   for (let attempt = 0; attempt < attempts; attempt++) {
-    const id = await findContactByEmail(email);
+    const id = await findContactByEmailBatchRead(email);
     if (id) return id;
     if (attempt < attempts - 1) {
       await new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -178,18 +181,17 @@ export async function POST(request) {
     }
 
     // 2. Enrich the contact the form created with the qualifying answers and
-    //    flag it for the manual qualification queue. If HubSpot has not finished
-    //    indexing the contact even after retries, the contact and its
-    //    attribution still exist; Bradley can flag it from the queue.
-    const contactId = await findContactByEmailWithRetry(formData.email);
+    //    flag it for the manual qualification queue. If the contact never
+    //    appears, the visitor still reaches the calendar, and the miss is logged
+    //    because the answers cannot be recovered later.
+    const contactId = await waitForContactId(formData.email);
 
     if (contactId) {
       await writeQualifyingProperties(contactId, formData);
       await markContactForReview(contactId);
     } else {
-      console.warn(
-        `[submit-form] Contact for ${formData.email} not indexed after retries; ` +
-          `qualifying data not written.`
+      console.error(
+        "[submit-form] contact never appeared; qualifying data not written"
       );
     }
 
