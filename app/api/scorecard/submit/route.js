@@ -4,7 +4,7 @@ import {
   ensureCustomContactProperties,
   submitHubSpotForm,
   markContactForReview,
-  findContactByEmail,
+  findContactByEmailBatchRead,
   pickUtmProperties,
   createContactTask,
   ensureScorecardResultProperties,
@@ -28,15 +28,16 @@ export const maxDuration = 30;
 
 let propertiesEnsured = false;
 
-// HubSpot's contact search index lags briefly after the form submission creates
-// the contact, so a single lookup often returns null for a first-time submitter
-// and the whole enrichment block (review flag, scorecard properties, task, PDF)
-// gets skipped. Retry past the lag so enrichment reliably lands. Mirrors
-// app/api/submit-form/route.js. The result is returned to the user regardless,
-// so this only bounds how long we wait for the contact to appear.
-async function findContactByEmailWithRetry(email, attempts = 5, delayMs = 400) {
+// The form submission creates the contact asynchronously, so a first-time
+// submitter may not exist for a few seconds after HubSpot accepts the form.
+// batch/read skips the search index (which lags 8 to 9 seconds), and the retry
+// covers the form's own processing time. Without a contact ID the whole
+// enrichment block (review flag, scorecard properties, task, PDF) is skipped and
+// the result is lost for good, so the wait is generous: about 8 seconds at worst,
+// and only a contact that has not appeared yet pays it.
+async function waitForContactId(email, attempts = 12, delayMs = 750) {
   for (let attempt = 0; attempt < attempts; attempt++) {
-    const id = await findContactByEmail(email);
+    const id = await findContactByEmailBatchRead(email);
     if (id) return id;
     if (attempt < attempts - 1) {
       await new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -135,12 +136,15 @@ export async function POST(request) {
     const observed = await observedPromise;
     const result = buildResult(answers, { observed });
 
-    // Look up the contact the form just created/updated so we can flag it for
-    // the manual qualification queue and notify Bradley. Retry past HubSpot's
-    // search-index lag so a first-time submitter's contact is still enriched. If
-    // it never appears, still return the result so the user sees their scorecard;
-    // Bradley can flag lifecycle from the queue.
-    const contactId = await findContactByEmailWithRetry(email);
+    // Find the contact the form just created or updated so we can flag it for
+    // the manual qualification queue and notify Bradley. If it never appears,
+    // still return the result so the user sees their scorecard, and log the miss
+    // because the enrichment below cannot be recovered later.
+    const contactId = await waitForContactId(email);
+
+    if (!contactId) {
+      console.error('[submit-scorecard] contact never appeared; enrichment skipped');
+    }
 
     if (contactId) {
       // markContactForReview is the single writer of lifecyclestage=lead +
