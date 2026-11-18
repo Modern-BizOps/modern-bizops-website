@@ -9,7 +9,7 @@ const hubspotMock = {
   writeScorecardResultProperties: vi.fn(async () => true),
   uploadPrivateFileToHubSpot: vi.fn(async () => ({ id: 'file-1', url: 'https://files.example/private' })),
   createContactNote: vi.fn(async () => 'note-1'),
-  findContactByEmail: vi.fn(async () => 'contact-123'),
+  findContactByEmailBatchRead: vi.fn(async () => 'contact-123'),
   pickUtmProperties: vi.fn((utms) => utms || {}),
   createContactTask: vi.fn(async () => 'task-1'),
   BRADLEY_OWNER_ID: '85826069',
@@ -40,7 +40,8 @@ beforeEach(() => {
   observedMock.observeWebsite.mockReset();
   observedMock.observeWebsite.mockResolvedValue(null);
   hubspotMock.submitHubSpotForm.mockResolvedValue({ ok: true });
-  hubspotMock.findContactByEmail.mockResolvedValue('contact-123');
+  hubspotMock.findContactByEmailBatchRead.mockReset();
+  hubspotMock.findContactByEmailBatchRead.mockResolvedValue('contact-123');
   dealCreateCalled = false;
   global.fetch = vi.fn(async (url) => {
     if (typeof url === 'string' && url.endsWith('/crm/v3/objects/deals')) {
@@ -208,9 +209,10 @@ describe('POST /api/scorecard/submit', () => {
     expect(res.status).toBe(502);
   });
 
-  it('still returns the result when the contact never indexes, after bounded retries', async () => {
+  it('still returns the result when the contact never appears, after bounded retries', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     vi.useFakeTimers();
-    hubspotMock.findContactByEmail.mockResolvedValue(null);
+    hubspotMock.findContactByEmailBatchRead.mockResolvedValue(null);
     const p = callRoute(fixtureBody());
     await vi.runAllTimersAsync();
     const res = await p;
@@ -220,16 +222,19 @@ describe('POST /api/scorecard/submit', () => {
     const json = await res.json();
     expect(json.success).toBe(true);
     expect(json.contactId).toBeNull();
-    expect(hubspotMock.findContactByEmail).toHaveBeenCalledTimes(5);
+    expect(hubspotMock.findContactByEmailBatchRead).toHaveBeenCalledTimes(12);
     expect(hubspotMock.markContactForReview).not.toHaveBeenCalled();
     expect(hubspotMock.writeScorecardResultProperties).not.toHaveBeenCalled();
+    // A lost enrichment must leave a trace in the logs, never pass silently.
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('enrichment skipped'));
+    errorSpy.mockRestore();
   });
 
-  it('retries past the search-index lag and enriches once the contact appears', async () => {
+  it('enriches a first-time submitter whose contact appears only after several null lookups', async () => {
     vi.useFakeTimers();
-    hubspotMock.findContactByEmail
-      .mockResolvedValueOnce(null)
-      .mockResolvedValue('contact-123');
+    // Six misses is about 4.5s, more than twice the old 2s budget that lost real leads.
+    for (let i = 0; i < 6; i++) hubspotMock.findContactByEmailBatchRead.mockResolvedValueOnce(null);
+    hubspotMock.findContactByEmailBatchRead.mockResolvedValue('contact-123');
     const p = callRoute(fixtureBody());
     await vi.runAllTimersAsync();
     const res = await p;
@@ -237,8 +242,9 @@ describe('POST /api/scorecard/submit', () => {
 
     const json = await res.json();
     expect(json.contactId).toBe('contact-123');
-    expect(hubspotMock.findContactByEmail).toHaveBeenCalledTimes(2);
+    expect(hubspotMock.findContactByEmailBatchRead).toHaveBeenCalledTimes(7);
     expect(hubspotMock.markContactForReview).toHaveBeenCalledWith('contact-123');
+    expect(hubspotMock.createContactTask).toHaveBeenCalledTimes(1);
     expect(hubspotMock.writeScorecardResultProperties).toHaveBeenCalledWith(
       'contact-123',
       expect.objectContaining({ scorecard_readiness_band: 'Foundations First' })

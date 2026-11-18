@@ -105,3 +105,53 @@ describe('markContactForReview', () => {
     expect(await markContactForReview('contact-9')).toBe(false);
   });
 });
+
+describe('findContactByEmailBatchRead', () => {
+  beforeEach(() => {
+    vi.resetModules();
+    process.env.HUBSPOT_API_KEY = 'test-token';
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('reads by idProperty=email through batch/read, never the search index', async () => {
+    let calledUrl = null;
+    let calledBody = null;
+    global.fetch = vi.fn(async (url, opts) => {
+      calledUrl = url;
+      calledBody = JSON.parse(opts.body);
+      return { ok: true, status: 200, json: async () => ({ results: [{ id: '42' }] }) };
+    });
+    const { findContactByEmailBatchRead } = await import('@/lib/hubspot');
+
+    await expect(findContactByEmailBatchRead('a@b.com')).resolves.toBe('42');
+    expect(calledUrl).toBe('https://api.hubapi.com/crm/v3/objects/contacts/batch/read');
+    expect(calledBody.idProperty).toBe('email');
+    expect(calledBody.inputs).toEqual([{ id: 'a@b.com' }]);
+  });
+
+  it('returns null on the 207 HubSpot sends for an email with no contact yet', async () => {
+    global.fetch = vi.fn(async () => ({
+      ok: true,
+      status: 207,
+      json: async () => ({ results: [], errors: [{ category: 'OBJECT_NOT_FOUND' }], numErrors: 1 }),
+    }));
+    const { findContactByEmailBatchRead } = await import('@/lib/hubspot');
+    await expect(findContactByEmailBatchRead('new@b.com')).resolves.toBeNull();
+  });
+
+  it('returns null on an API error so the caller can retry', async () => {
+    global.fetch = vi.fn(async () => ({ ok: false, status: 429, json: async () => ({}) }));
+    const { findContactByEmailBatchRead } = await import('@/lib/hubspot');
+    await expect(findContactByEmailBatchRead('a@b.com')).resolves.toBeNull();
+  });
+
+  it('returns null when the network call throws so the caller can retry', async () => {
+    global.fetch = vi.fn(async () => {
+      throw new Error('socket hang up');
+    });
+    const { findContactByEmailBatchRead } = await import('@/lib/hubspot');
+    await expect(findContactByEmailBatchRead('a@b.com')).resolves.toBeNull();
+  });
+});
