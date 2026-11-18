@@ -20,12 +20,22 @@ export default function PrivacyPage() {
               Privacy Policy
             </h1>
             <p className="text-text-light text-sm mb-1">
-              Last updated August 14, 2026
+              Last updated October 9, 2026
             </p>
-            {/* VERSION COUPLING: privacy-2026-08-14 matches the app's clickwrap
+            {/* VERSION COUPLING: privacy-2026-10-09 matches the app's clickwrap
                 registry (server/src/lib/legalDocs.js). Do NOT bump this string
                 unless you also change the content and update the app in the same
                 change window. A separate Privacy Policy audit is pending.
+
+                BUMPED 2026-10-09 from privacy-2026-08-14 (ASK-157, option B,
+                Bradley 2026-10-09) to name the Meta Pixel in section 4. HubSpot
+                Ads injects Meta pixel 3606861202750192 on every page through
+                the HubSpot loader (it is not in this repo's HTML), with a LEAD
+                conversion event on one HubSpot form. Recorded `material: true`:
+                Meta is a new named recipient that uses the data for its own
+                purposes, not a service provider, which is the "widens who
+                receives it" case the 2026-08-14 rule reserves material for.
+
 
                 BUMPED 2026-08-14 from privacy-2026-02-18, in the same change
                 window as the app registry entry, for the two disclosures added
@@ -52,7 +62,7 @@ export default function PrivacyPage() {
                 repo's /update-legal-doc process, which owns the clickwrap
                 registry. */}
             <p className="text-text-light text-xs mb-10">
-              Version: privacy-2026-08-14 (effective August 14, 2026)
+              Version: privacy-2026-10-09 (effective October 9, 2026)
             </p>
 
             <p>
@@ -318,6 +328,29 @@ export default function PrivacyPage() {
                 className="text-amber hover:underline"
               >
                 https://legal.hubspot.com/privacy-policy
+              </a>
+              .
+            </p>
+            <p>
+              <strong>Meta Pixel.</strong> Our HubSpot account loads the Meta
+              Pixel, a tracking technology from Meta Platforms, Inc., on this
+              site. It lets us measure how our advertising on Facebook and
+              Instagram performs and, if we choose to, show our ads to people
+              who have visited this site. The pixel collects information such as
+              the pages you view, your IP address, your browser and device
+              characteristics, and actions you take here, including submitting
+              certain forms. Meta receives this information, may link it to your
+              Meta account if you have one, and uses it as described in its own
+              privacy policy. You can manage the ads you see from Meta in your
+              Meta ad preferences. For more information, see Meta&apos;s Privacy
+              Policy at{" "}
+              <a
+                href="https://www.facebook.com/privacy/policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber hover:underline"
+              >
+                https://www.facebook.com/privacy/policy
               </a>
               .
             </p>
