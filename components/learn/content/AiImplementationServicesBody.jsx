@@ -33,7 +33,7 @@ const MICROSOFT_URL =
 // (Marketing Systems/SEO Pilot/pending-approval/aeo-9-ai-implementation-
 // services.md, drafted 2026-09-14, approved by Bradley and published
 // 2026-09-21). Every price interpolates from lib/offers.js, so the audit credit
-// renders as AUDIT_TERMS words ("100 percent", "your first Partner month") and
+// renders as AUDIT_TERMS words ("100 percent", "Partner month") and
 // Partner Plus carries its full ladder name, where the draft abbreviated both
 // (aeo-1 and batch 2 precedent: the repo constant wins). The draft's one
 // needs-Bradley flag, in "What it costs, by scope", ships qualitative per the
