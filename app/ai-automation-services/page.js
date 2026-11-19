@@ -61,7 +61,7 @@ const PARTNER_LIMIT_WORD = SYSTEM_WORDS[PARTNER_SYSTEM_LIMIT - 1];
 
 const LADDER_NOTES = {
   scan: "No call, no card, and no obligation to do anything with the result.",
-  audit: `The credit also applies to your first Partner month, and it holds for ${AUDIT_TERMS.creditWindow}. ${AUDIT_TERMS.guarantee}`,
+  audit: `The credit also applies to your first Cleanup Service or your first Partner month, and it holds for ${AUDIT_TERMS.creditWindow}. ${AUDIT_TERMS.guarantee}`,
   builds: `That price covers one system of record and one funnel. A second of either adds ${UPLIFT_RULE.addition}, and the ceiling is ${UPLIFT_RULE.cap}.`,
   partner: `Includes the ${CARE_PLAN.name} work on every system it covers. Quarterly out.`,
   "partner-plus": "Same terms as the Partner plan, including the quarterly out.",

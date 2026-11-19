@@ -46,7 +46,8 @@ const CLEANUP_THAT_HOLDS = [
 // draft wrote. The clocks stay in the draft's words ("one to two weeks"), and
 // the audit credit sentence stays as drafted ("100% ... your first build,
 // cleanup or Partner month"), because doc 26 D4 extends the credit to cleanup
-// and AUDIT_TERMS.creditTarget predates that. This body carries the author's
+// and this sentence was drafted before AUDIT_TERMS.creditTarget caught up
+// (2026-11-19). This body carries the author's
 // first person (the Contactually story, "I will tell you"), so it sits in
 // AUTHORED_SPEAKS_AS_I.
 export default function CrmDataCleansingServicesBody() {

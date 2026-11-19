@@ -9,7 +9,7 @@ const cta = {
     'A connected read of your CRM and revenue tools, with the numbers computed from your own records',
     'Your maturity stage and your AI readiness profile scored against the certified framework',
     'A ranked list of what to automate first',
-    '$2,500, and it credits 100 percent toward your first build or your first Partner month inside 90 days',
+    '$2,500, and it credits 100 percent toward your first build, Cleanup Service or Partner month inside 90 days',
   ],
   buttonLabel: 'See the AI Revenue Audit',
   foundingLine: 'While the founding window is open, the audit fee credits 100 percent toward your first build and founding clients get the first two months of the Care Plan included.',
