@@ -225,3 +225,42 @@ describe('QuizFlow restore discards answers on retired option values', () => {
     expect(screen.getByText('Total team size')).toBeInTheDocument();
   });
 });
+
+describe('QuizFlow per-question analytics', () => {
+  let gtagCalls;
+  beforeEach(() => {
+    gtagCalls = [];
+    window.gtag = vi.fn((...args) => gtagCalls.push(args));
+  });
+
+  function stepEvents() {
+    return gtagCalls.filter((c) => c[0] === 'event' && c[1] === 'scorecard_step').map((c) => c[2]);
+  }
+
+  it('fires scorecard_step once per answered question, then questions_complete', async () => {
+    render(<QuizFlow utms={{}} />);
+    answerEveryQuestion();
+    await waitFor(() => screen.getByText(/One last step before your results/i));
+
+    const steps = stepEvents();
+    expect(steps).toHaveLength(15);
+    expect(steps[0]).toMatchObject({
+      lead_magnet: 'scorecard', cta_location: 'scan_q1', question_id: 'q1', step_index: 1, step_total: 16,
+    });
+    // step_total is what was visible when the question was answered: q16 (churn)
+    // counts until q2 picks a model that hides it.
+    expect(steps[14]).toMatchObject({ cta_location: 'scan_q15', step_index: 15, step_total: 15 });
+    const complete = gtagCalls.filter((c) => c[1] === 'scorecard_questions_complete');
+    expect(complete).toHaveLength(1);
+    expect(complete[0][2]).toMatchObject({ cta_location: 'scan_email_gate', step_total: 15 });
+  });
+
+  it('does not count a question twice when the visitor goes Back and Next again', () => {
+    render(<QuizFlow utms={{}} />);
+    selectFirstOption(); clickNext();               // q1
+    fireEvent.click(screen.getByRole('button', { name: /back/i }));
+    clickNext();                                    // q1 again
+    const ids = stepEvents().map((e) => e.question_id);
+    expect(ids).toEqual(['q1']);
+  });
+});
